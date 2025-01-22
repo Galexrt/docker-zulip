@@ -95,6 +95,9 @@ setConfigurationValue() {
             [\[\(]*[\]\)])
             TYPE="array"
             ;;
+            ^\{)
+            TYPE="object"
+            ;;
             *)
             TYPE="string"
             ;;
@@ -109,7 +112,7 @@ setConfigurationValue() {
         literal)
         VALUE="$1"
         ;;
-        bool|boolean|int|integer|array)
+        bool|boolean|int|integer|array|object)
         VALUE="$KEY = $2"
         ;;
         string|*)
@@ -289,6 +292,15 @@ zulipConfiguration() {
            [ "$setting_key" = "REALM_HOSTS" ] || \
            [ "$setting_key" = "ALLOWED_HOSTS" ]; then
             type="array"
+        fi
+        if [ "$setting_key" = "SOCIAL_AUTH_SAML_ORG_INFO" ] || \
+           [ "$setting_key" = "SOCIAL_AUTH_SAML_TECHNICAL_CONTACT" ] || \
+           [ "$setting_key" = "SOCIAL_AUTH_SAML_SUPPORT_CONTACT" ] || \
+           [ "$setting_key" = "SOCIAL_AUTH_SAML_SECURITY_CONFIG" ] || \
+           [ "$setting_key" = "SOCIAL_AUTH_SAML_SP_EXTRA" ] || \
+           [ "$setting_key" = "SOCIAL_AUTH_SAML_SECURITY_CONFIG" ] || \
+           [ "$setting_key" = "SOCIAL_AUTH_SAML_ENABLED_IDPS" ]; then
+            type="object"
         fi
         if [ "$SPECIAL_SETTING_DETECTION_MODE" = "True" ] || [ "$SPECIAL_SETTING_DETECTION_MODE" = "true" ] || \
            [ "$type" = "string" ]; then
