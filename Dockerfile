@@ -3,6 +3,20 @@
 # tools/build-release-tarball to generate a production release tarball
 # from the provided Git ref.
 FROM ubuntu:24.04 AS base
+# Install required packages
+RUN apt-get update && apt-get install -y \
+    logrotate \
+    cron \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy logrotate configuration
+COPY zulip-docker /etc/logrotate.d/zulip-docker
+RUN chmod 644 /etc/logrotate.d/zulip-docker
+
+# Set up log directories with proper permissions
+RUN mkdir -p /var/log/zulip /var/log/supervisor \
+    && chown -R zulip:zulip /var/log/zulip \
+    && chmod 755 /var/log/zulip
 
 # Set up working locales and upgrade the base image
 ENV LANG="C.UTF-8"

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 if [ "$DEBUG" = "true" ] || [ "$DEBUG" = "True" ]; then
     set -x
@@ -6,6 +7,18 @@ if [ "$DEBUG" = "true" ] || [ "$DEBUG" = "True" ]; then
 fi
 set -e
 shopt -s extglob
+# === ADD NEW LOG ROTATION CODE RIGHT HERE ===
+echo "Setting up log rotation..."
+service cron start
+touch /var/lib/logrotate/status
+
+echo "Creating log directories..."
+mkdir -p /var/log/zulip /var/log/supervisor
+
+echo "Setting correct permissions..."
+chown -R zulip:zulip /var/log/zulip
+chmod 755 /var/log/zulip
+# === END OF NEW LOG ROTATION CODE ===
 
 # DB aka Database
 DB_HOST="${DB_HOST:-127.0.0.1}"

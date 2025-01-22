@@ -9,3 +9,7 @@ TODO.md
 kubernetes/
 scripts/
 docker-compose.yml
+logs/
+supervisor-logs/
+zulip-data/
+

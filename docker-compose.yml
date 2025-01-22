@@ -113,7 +113,14 @@ services:
       # SETTINGS_S3_ENDPOINT_URL: "None"
       # SETTINGS_S3_REGION: "None"
     volumes:
+      - ./logs:/var/log/zulip:rw
+      - ./supervisor-logs:/var/log/supervisor:rw
       - "zulip:/data:rw"
+    depends_on:
+      - database
+      - memcached
+      - rabbitmq
+      - redis
     ulimits:
       nofile:
         soft: 1000000

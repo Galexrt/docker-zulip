@@ -1,0 +1,29 @@
+docker exec -it zulip bash -c 'cat > /etc/logrotate.d/zulip-docker' << 'EOF'
+/var/log/zulip/*.log {
+    daily
+    rotate 7
+    compress
+    delaycompress
+    notifempty
+    missingok
+    create 644 zulip zulip
+    sharedscripts
+    postrotate
+        supervisorctl reopen-logs
+    endscript
+}
+
+/var/log/supervisor/*.log {
+    daily
+    rotate 7
+    compress
+    delaycompress
+    notifempty
+    missingok
+    create 644 root root
+    sharedscripts
+    postrotate
+        supervisorctl reopen-logs
+    endscript
+}
+EOF
