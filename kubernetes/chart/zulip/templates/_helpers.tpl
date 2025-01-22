@@ -78,16 +78,26 @@ include all env variables for Zulip pods
   value: "{{ template "common.names.fullname" .Subcharts.rabbitmq }}"
 - name: SETTING_REDIS_HOST
   value: "{{ template "common.names.fullname" .Subcharts.redis }}-headless"
+{{- if .Values.rabbitmq.auth.password }}
 - name: SECRETS_rabbitmq_password
   value: "{{ .Values.rabbitmq.auth.password }}"
+{{- end }}
+{{- if .Values.postgresql.auth.password }}
 - name: SECRETS_postgres_password
   value: "{{ .Values.postgresql.auth.password }}"
+{{- end }}
+{{- if .Values.memcached.memcachedPassword }}
 - name: SECRETS_memcached_password
   value: "{{ .Values.memcached.memcachedPassword }}"
+{{- end }}
+{{- if .Values.redis.auth.password }}
 - name: SECRETS_redis_password
   value: "{{ .Values.redis.auth.password }}"
+{{- end }}
+{{- if .Values.zulip.password }}
 - name: SECRETS_secret_key
   value: "{{ .Values.zulip.password }}"
+{{- end }}
 {{- range $key, $value := .Values.zulip.environment }}
 - name: {{ $key }}
   value: {{ $value | quote }}

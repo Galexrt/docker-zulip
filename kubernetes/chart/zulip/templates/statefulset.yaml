@@ -60,6 +60,11 @@ spec:
               mountPath: /data/post-setup.d
           env:
             {{ include "zulip.env" . | nindent 12 }}
+          {{- if .Values.zulip.secretEnvironment }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.zulip.secretEnvironment }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- if .Values.livenessProbe.enabled }}

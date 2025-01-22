@@ -145,6 +145,8 @@ zulip:
     SETTING_EMAIL_USE_SSL: "False"
     SETTING_EMAIL_USE_TLS: "True"
     ZULIP_AUTH_BACKENDS: "EmailAuthBackend"
+  ## An existing secret from which populate environment variablgwes.
+  secretEnvironment: ""
   ## If `persistence.existingClaim` is not set, a PVC (Persistent
   ## Volume Claim) is generated with these specifications.
   persistence:

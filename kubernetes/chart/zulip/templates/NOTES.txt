@@ -1,7 +1,7 @@
 1. To create a realm so you can sign in:
 
   export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ template "zulip.name" . }}" -o jsonpath="{.items[0].metadata.name}")
-  kubectl -n {{ .Release.Namespace }} exec -it "$POD_NAME" -c zulip -- sudo -u zulip /home/zulip/deployments/current/manage.py generate_realm_creation_link
+  kubectl -n {{ .Release.Namespace }} exec -it "$POD_NAME" -c zulip -- sudo -Eu zulip /home/zulip/deployments/current/manage.py generate_realm_creation_link
 
 2. Zulip will be available on:
 
