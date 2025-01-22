@@ -29,9 +29,9 @@ WORKDIR /home/zulip
 ARG ZULIP_GIT_URL=https://github.com/zulip/zulip.git
 ARG ZULIP_GIT_REF=9.4
 
-RUN git clone "$ZULIP_GIT_URL" && \
+RUN git clone --depth 1 --branch "$ZULIP_GIT_REF" "$ZULIP_GIT_URL" && \
     cd zulip && \
-    git checkout -b current "$ZULIP_GIT_REF"
+    git checkout -b current
 
 WORKDIR /home/zulip/zulip
 
