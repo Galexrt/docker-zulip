@@ -84,6 +84,9 @@ services:
       SETTING_ZULIP_ADMINISTRATOR: "admin@example.com"
       SETTING_EMAIL_HOST: "" # e.g. smtp.example.com
       SETTING_EMAIL_HOST_USER: "noreply@example.com"
+      # Force noreply@example.com to send emails
+      # See reasons to set it to True [here](https://zulip.readthedocs.io/en/latest/production/email.html#troubleshooting)
+      SETTING_ADD_TOKENS_TO_NOREPLY_ADDRESS: 'False'
       SETTING_EMAIL_PORT: "587"
       ## It seems that the email server needs to use ssl or tls and can't be used without it
       SETTING_EMAIL_USE_SSL: "False"
