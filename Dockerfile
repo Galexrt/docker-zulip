@@ -71,7 +71,17 @@ RUN \
     rm -f /etc/zulip/zulip-secrets.conf /etc/zulip/settings.py && \
     apt-get -qq autoremove --purge -y && \
     apt-get -qq clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    mv /etc/letsencrypt /etc/letsencrypt.zulip
+# ^ Zulip Server installs LetsEncrypt with some default settings. We want to
+# allow /etc/letsencrypt to be volume mountable from the host while retaining
+# these settings unless overridden, so let's unclobber this path so that
+# entrypoint.sh can symlink from the volume mount and repopulate any missing
+# default files.
+#
+# This incantation must be part of the same layer that creates
+# /etc/letsencrypt/renewal-hooks to avoid Directory Not Empty / Invalid
+# Argument errors attempting to rename or unlink it.
 
 COPY entrypoint.sh /sbin/entrypoint.sh
 COPY certbot-deploy-hook /sbin/certbot-deploy-hook

@@ -51,7 +51,11 @@ SETTINGS_PY="/etc/zulip/settings.py"
 # === initialConfiguration ===
 prepareDirectories() {
     mkdir -p "$DATA_DIR" "$DATA_DIR/backups" "$DATA_DIR/certs" "$DATA_DIR/letsencrypt" "$DATA_DIR/uploads"
-    [ -e /etc/letsencrypt ] || ln -ns "$DATA_DIR/letsencrypt" /etc/letsencrypt
+
+    # See commentary in the Dockerfile about this process.
+    ln -Ts "${DATA_DIR}/letsencrypt" /etc/letsencrypt
+    cp -an /etc/letsencrypt.zulip/* /etc/letsencrypt/
+
     echo "Preparing and linking the uploads folder ..."
     rm -rf /home/zulip/uploads
     ln -sfT "$DATA_DIR/uploads" /home/zulip/uploads
