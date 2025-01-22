@@ -124,6 +124,9 @@ tolerations: []
 affinity: {}
 
 zulip:
+  smokeScreen:
+    # a list of whitelisted ip for smokescreen
+    whitelistedAddresses: []
   ## Environment variables based on
   ## https://github.com/zulip/docker-zulip/blob/master/docker-compose.yml#L63
   environment:

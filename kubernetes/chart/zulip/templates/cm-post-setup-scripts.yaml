@@ -9,4 +9,14 @@ data:
   {{ $scriptName }}: |
     {{- $scriptContents | nindent 4 }}
   {{- end }}
+  {{- if .Values.zulip.smokeScreen.whitelistedAddresses }}
+  __zulip_smokescreen_whitelist.sh: |
+    #!/bin/bash
 
+    sed -ri \
+        "s/(command.*)/\1
+        {{- range .Values.zulip.smokeScreen.whitelistedAddresses }} --allow-address {{ . }}{{ end -}}
+        /" \
+        /etc/supervisor/conf.d/zulip/smokescreen.conf
+
+  {{- end }}
